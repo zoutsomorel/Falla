@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>
+		Formulaire d'inscription
+	</title>
+	<link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="../css/fontawesome.css">
+	<link rel="stylesheet" type="text/css" href="../css/morel.css">
+	<style type="text/css">
+		form .input{
+/*			margin-left: 10px;*/
+			width:calc(100% - 15px);
+			margin-top:5px;
+			bpx-sizing:border-box;
+			border-radius:4px;
+		}
+	</style>
+</head>
+<body>
+	<div class='flex-center w-100 h-100 fixed-top px-2 border-box'>
+		<form class='container-500 text-left rounded shadow' style='margin:0px;padding:20px 5px'>
+			<h4 class='text-center'>Inscription</h4>
+			<div class='py-2'>
+				<span class='py-2'>
+					Email
+				</span><br/>
+				<input type='mail'  class='input form-control' placeholder='Email'/>
+			</div>
+			<div class='py-2'>
+				<span class='py-2'>
+					Mot de passe
+				</span><br/>
+				<input type='password'  class='input form-control' placeholder='Mot de passe'/>
+			</div>
+			<div class='text-center'>Ou <br/><div id="google-signin-button"></div></div>
+		</form>
+	</div>
+	<script src="https://apis.google.com/js/platform.js?onload=onLoadGoogleCallback" async defer></script>
+	<script type="text/javascript">
+		function onLoadGoogleCallback() {
+		    gapi.load('auth2', function() {
+		        gapi.auth2.init({
+		            client_id: 'VOTRE_CLIENT_ID.apps.googleusercontent.com',
+		            scope: 'profile email'
+		        }).then(function() {
+		            const auth2 = gapi.auth2.getAuthInstance();
+		            // Configurer le bouton Google Sign-In
+		            auth2.attachClickHandler(
+		                document.getElementById('google-signin-button'),
+		                {},
+		                onSignIn, // Callback succès
+		                onFailure // Callback échec
+		            );
+		        });
+		    });
+		}
+
+	// Callback quand la connexion réussit
+	function onSignIn(googleUser) {
+	    const profile = googleUser.getBasicProfile();
+	    const userData = {
+	        id: profile.getId(),
+	        name: profile.getName(),
+	        email: profile.getEmail(),
+	        imageUrl: profile.getImageUrl()
+	    };
+	    
+	    // Envoyer les données au serveur ou traiter localement
+	    console.log('Utilisateur connecté:', userData);
+	    
+	    // Pour déconnecter l'utilisateur
+	    // googleUser.disconnect();
+	}
+
+	// Callback en cas d'échec
+	function onFailure(error) {
+	    console.log('Erreur de connexion:', error);
+	}
+	</script>
+</body>
+</html>

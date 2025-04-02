@@ -1,0 +1,35 @@
+
+
+/*styliser le top menu et bottom*/
+.navMenuTop{
+	position: fixed;
+	background:blueviolet;
+	padding: 5px;
+	box-sizing: border-box;
+	top:0px;
+	left:0px;
+	z-index: 10;
+	width:2000px;
+	color:white;
+}
+
+/*le bottom menu*/
+.navMenuBottom{
+	position: fixed;
+	background:blueviolet;
+	bottom:0px;
+/*	top:none;*/
+	padding:0px;
+/*	height:100px;*/
+}
+
+@media screen and (max-width:2000px){
+	.navMenuTop, .navMenuBottom{
+		width:100%;
+	}
+}
+
+
+h1{
+	font-weight: 600;
+}

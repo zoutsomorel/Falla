@@ -1,0 +1,237 @@
+
+*{
+	outline:none;
+}
+/*afficher le contenus d'un cour*/
+.containCour{
+	width:250px;
+}
+
+/*styliler la div ou est affiche le nom de la div dans le containt div*/
+.nomCour{
+	display: flex;
+	width:100%;
+	height:100px;
+	color:white;
+}
+
+/*afficher les info du cours lamatiere la classe l'enseigiant*/
+.infoCour{
+/*	width:100%;*/
+}
+
+/*style la div de la matiere contenus dans l'affichage du cour*/
+.menuCour,.menuExercice{
+	position: sticky;
+	top:38px;
+	background: white;
+	z-index:2;
+}
+
+.menuExerciceAdd{
+	/*position: fixed;
+	top:0px;
+	left:0px;
+	color:black;*/
+	background: white;
+	z-index:2;
+/*	width:100%;*/
+}
+.courNomMatiere,.exerciceNomMatiere{
+	position: sticky;
+	top:124px;
+	box-sizing: border-box;
+	padding:0px 5px;
+	background:white;
+/*	text-indent: 30px;*/
+	border-bottom:1px solid #ccc;
+/*	box-shadow:0px 3px 10px #ccc;*/
+}
+
+/*style la div de la classe contenus dans l'affichage du cour*/
+.courNomClasse,.exerciceNomClasse{
+	position: sticky;
+	top:87px;
+	box-sizing: border-box;
+	padding:5px 5px 0px 0px;
+	z-index:1;
+	border-bottom:1px solid #ccc;
+	background:white;
+}
+
+/*div qui afficher les cours par matiere*/
+.affCour,.affExercice{
+	padding:20px 10px;
+	box-sizing: border-box;
+	min-height:200px;
+}
+
+/*input commenter dans le cours*/
+.inputCourCommentaire{
+	width:100%;
+	box-sizing: border-box;
+	padding:5px 20px;
+	background:#eee;
+	border-radius: 50px;
+	border:none;
+	resize:none;
+}
+/*div qui vas contenir le contenus du cour*/
+
+
+
+/*reduire le cour*/
+.reduire{
+	position: fixed;
+	bottom:20px;
+	left:calc(50% + 350px);
+	cursor: pointer;
+	background:#ccc;
+	border-radius:5px;
+	padding:5px;
+}
+
+/*div pour afficher le contenus d'un exercice*/
+.divConsulterCour{
+	display:flex;
+}
+
+/*formulaire du commentaire*/
+.formCommentaire{
+	position: fixed;
+	bottom:0px;
+	padding: 10px;
+	box-sizing: border-box;
+	border-radius:0px 0px 0px 0px;
+	background: rgba(230,230,230,0.7);
+	color:white;
+	border-top:1px solid #ccc;
+	margin-left:-10px;
+}
+
+/*block qui afficher le cour en pdf*/
+.divConsulterCour .divConsulte{
+	width:calc(100% - 300px);
+}
+
+.divConsulterCour .divContainCour{
+	overflow-y: scroll;
+	height: calc(70vh - 25px);
+	border-bottom:1px solid #ccc;
+}
+
+
+.divConsulterCour .divCommente{
+	position: fixed;
+	width:300px;
+	right:calc(5% + 10px);
+	height: calc(70vh - 25px);
+	box-sizing: border-box;
+	padding-bottom: 15px;
+	overflow-y: scroll;
+	behavior:smooth;
+	background-image:url("/js/discussionGenerale/imageDefond.jpg");
+	background-size:100% 100%;
+	background-repeat:no-repeat;
+}
+
+.divConsulte img{
+	width:100%;
+}
+
+.classess #consulterListe{
+	min-height: 100%;
+	padding-bottom: 80px;
+	box-sizing: border-box;
+}
+
+
+@media screen and (min-width:2000px){
+	.divConsulterCour .divCommente{
+		position: fixed;
+		width:300px;
+		right:calc(50% - 990px);
+	}
+}
+
+
+@media screen and (max-width:1000px){
+	.divConsulterCour{
+		display: block;
+	}
+
+	.divConsulterCour .divCommente,.divConsulterCour .divConsulte{
+		width:100%;
+		position: relative;
+		right:0px;
+	}
+
+	.divConsulterCour .divCommente{
+		overflow-y: none;
+		padding-bottom: 30px;
+	}
+}
+@media screen and (max-width:850px){
+	.reduire{
+		left:calc(100% - 100px);
+	}
+}
+
+/*ajuster les images dans l'ouverture d'un cour*/
+@media screen and (max-width:650px){
+	.contenusCour img{
+		width:100%;
+	}
+}
+
+
+/*transition*/
+
+.desactiveMenuProfil{
+	/*opacity: 0;
+	pointer-events: none;
+	transform: scale(0) translate(100px);
+	transform-origin: top left;
+	transition:1s all;*/
+	position: absolute;
+}
+
+
+.activeMenuProfil{
+	/*opacity: 1;
+	pointer-events: auto;
+	transform:scale(1) translate(0);
+	transform-origin: top left;*/
+	position: absolute;
+/*	transition:1s all;*/
+}
+
+/*div du zom*/
+.zom{
+	width:100%;
+}
+
+@media screen and (min-width:1000px){
+	.zom{
+		width:calc(100% - 480px);
+	}
+}
+
+@media screen and (min-width:2000px){
+	.zom{
+		width: 1700px;
+	}
+}
+
+
+
+/*div de la recherche*/
+
+.divRecherche{
+	width:calc(100% - 40px);
+	transition: 0.5s all;
+}
+
+.divRecherche:hover{
+	width:calc(100% + 200px);
+}

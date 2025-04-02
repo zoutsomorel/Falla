@@ -1,0 +1,66 @@
+.cours-content, .exerice-content, .classeVirtuelle-content, .Question-content{
+    position: absolute;
+    width: calc(100% - 100px);
+    height: 100%;
+
+}
+
+.cours, .exercices, .classeVirtuelle, .Question{
+    height: 100%;
+    width: 100%;
+}
+
+.exercice-btn{
+    border: 5px solid red;
+}
+
+
+/* css barre de recherche du cours  */
+
+.s-profil{
+    position: absolute;
+    top: 10px;
+    height: 40px;
+    /* width: 200px; */
+    /* border: 1px solid black; */
+    right: 4px;
+    border-radius: 25px;
+}
+
+.s-profil i{
+    position: absolute;
+    right: 7px;
+    margin-top: 10px;
+    font-size: 20px;
+    /* z-index: 1; */
+}
+
+.i-search{
+    height: 100%;
+    width: 100%;
+    padding-right: 25px;
+    padding-left: 7px;
+    border-radius: 25px;
+}
+
+@media only screen and (min-width:450px){
+    .s-profil{
+        width: 250px;
+    }
+
+}
+
+@media only screen and (min-width:768px){
+    .s-profil{
+        width: 380px;
+    }
+
+}
+
+@media only screen and (min-width:992px){
+    .s-profil{
+        width: 500px;
+    }
+
+}
+

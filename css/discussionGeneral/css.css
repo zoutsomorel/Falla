@@ -1,0 +1,575 @@
+
+
+.chatbot{
+    position: fixed;
+    right: 30px;
+    width: 420px;
+    overflow: hidden;
+    background-color: #fff;
+    bottom: 50px;
+    border-radius: 15px;
+    box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.1),
+                0 32px 64px -48-x rgba(0, 0, 0, 0.5);
+    border: 1px solid black;
+    font-size: 13px;
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0);
+    transform-origin: bottom right;
+    transition: all .3s ease-in-out;
+    /* transition: all .5s ease; */
+}
+
+.active1 .chatbot{
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1);
+    transform-origin: bottom right;
+    transition: all .3s ease-in-out;
+}
+
+.btn-message{
+    position: absolute;
+    right: 10px;
+    bottom: 20px;
+    width: 50px;
+    height: 50px;
+    border: 1px solid black;
+    padding: 5px;
+    justify-content: center;
+    align-items: center;
+    outline: none;
+    border-radius: 50%;
+    display: flex;
+    cursor: pointer;
+}
+
+.btn-message span{
+    position: absolute;
+    font-size: 30px;
+}
+.active1 .btn-message span:first-child,
+.btn-message span:last-child{
+    transform: rotate(90deg);
+    opacity: 0;
+    transition: all .4s ease;
+}
+
+.active1 .btn-message span:last-child{
+    opacity: 1;
+    transform: rotate(0);
+    transition: all .4s ease;
+}
+
+.chatbot .header{
+    position: relative;
+    background-color: #724ae8;
+    /* background-color: rgba(138,43 , 226, 0.6); */
+    padding: 5px 0;
+    text-align: center;
+    color: #fff;
+}
+
+.chatbot .header span{
+    position: absolute;
+    right: 10px;
+    top: 10%;
+    font-size: 25px;
+    cursor: pointer;
+    display: none;
+    /* transform: translateY(50%); */
+}
+
+.chatbot .chatbox{
+    /* display: flex;
+    flex-direction: column; */
+    height: 500px;
+    overflow-y: auto;
+    padding: 30px 20px 70px;;
+    transition:all .3s ease;
+    scroll-behavior: smooth;
+    background: url("../../js/discussionGenerale/imageDefond.jpg");
+    background-size:cover ;
+    /* border: 2px solid green; */
+}
+
+.chatbot .open{
+    position: absolute;
+    /* display: flex; */
+    height: calc(100% - 49px);
+    width:100%;
+    left: 0;
+    z-index: 10;
+    /* border: 5px solid blue; */
+    background-color: rgba(0, 0, 0, 0.5);
+
+    pointer-events: none;
+    opacity: 0;
+    transform: scale(0);
+    transform-origin: bottom right;
+    transition: all .8s ease;
+}
+.open.active{
+    pointer-events: auto;
+    opacity: 1;
+    transform: scale(1);
+    transform-origin: bottom right;
+    transition: all .8s ease;
+}
+
+.chatbot .btn-down{
+ 
+     color: white;
+    background-color: blueviolet;
+    border-radius: 50%;
+    padding: 5px;
+    cursor: pointer;
+
+}
+
+.chatbot .nbreMessNonLue{
+  
+    border-radius: 30px;
+    background-color: white;
+    color: black;
+    border: 0px;
+    z-index: 2; 
+}
+
+.chatbot .bh{
+    position: absolute;
+    right: 3px;
+    padding: 3px;
+    bottom: 50px;
+    border-radius: 15px;
+    background-color: rgba(113, 185, 244, 0.8);
+}
+
+
+
+.chatbox .chat{
+    position: relative;
+    display: flex;
+    cursor: pointer;
+    margin: 20px 0;
+    pointer-events: none;
+    opacity: 0;
+    transform: scale(0.5) translateX(1000px);
+    transition: transform 0.5s, opacity 0.5s;
+    user-select: none;
+    /* border: 1px solid black; */
+}
+
+.chatbox .chat.active{
+    pointer-events: auto;
+    opacity: 1;
+    transform: scale(1) translateX(0);
+    transition: all 0.5s ease-in-out;
+}
+
+.chatbox .chat.remove-chatbox{
+    opacity: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    /* transition: all 1s ease; */
+    transform:scale(0.5) translateX(-1000px);
+    transition: all 0.5s ease-in-out;
+}
+
+.chatbox .incoming .symbole{
+    height: 32px;
+    width: 32px;
+    color: #fff;
+    align-self: flex-end;
+    background-color: #724ae8;
+    text-align: center;
+    line-height: 32px;
+    border-radius: 32px;
+    margin: 0 10px 0px 0;
+}
+
+.chatbox .outgoing {
+    /* margin: 20px 0; */
+    border-radius: 10px 10px 10px 0;
+    justify-content: flex-end;
+    padding-right: 20px;
+}
+
+
+
+.chatbox .chat .p{
+    color: #fff;
+    max-width: 75%;
+    min-width: 30%;
+    font-size: 0.95rem;
+    padding: 0px 10px;
+    border-radius: 10px 10px 0 10px;
+    background-color: #724ae8;
+    /* border: 1px solid black; */
+}
+
+.chatbox .incoming .p{
+    color: #000;
+    background-color: #f2f2f2;
+    border-radius: 10px 10px 10px 0;
+}
+
+/* contentu specifique d'un message */
+/* nom de l'emetteur  */
+.incoming .p .name{
+    /* border-bottom: 1px solid black; */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.outgoing .p .name{
+    /* border-bottom: 1px solid #fff; */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+} 
+
+.chat .message{
+    display: block;
+    word-wrap: break-word;
+}
+
+.chat .times{
+    position: relative;
+    display: flex;
+    bottom: 0;
+    justify-content: flex-end;
+    margin-bottom: -10px;
+    margin-right: -10px;
+    opacity: 0.9;
+}
+
+.chat .times span {
+    /* border: 1px solid black; */
+    padding: 0 5px;
+    font-size: 13px;
+    border-radius: 15px;
+}
+
+.chatbox .incoming .times span{
+    /* background-color: rgba(138,43 , 226, 0.6); */
+    background-color: #724ae8;
+    color: #fff;
+}
+
+.chatbox .outgoing .times span{
+    /* background-color: rgba(138,43 , 226, 0.6); */
+    background-color: #f2f2f2;
+    color: black;
+}
+
+/* css block de message pour repondre a un autre message */
+.chatbox .incoming .p .response{
+    background-color: hwb(0 87% 13%);
+    margin: 0px -8px;
+    padding: 0 5px;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.chatbox .outgoing .p .response{
+    background-color: rgba(113, 185, 244, 0.1);
+    margin: 0px -8px;
+    padding: 0 5px;
+    /* color: black; */
+    color: rgba(244, 242, 242, 0.7);
+}
+
+.chat .response span{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+
+
+/* css input et footer */
+
+.chatbot .chat-input{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    /* gap: 5px; */
+    background-color: #fff;
+    padding: 5px 5px;
+    border-top: 1px solid #ccc;
+    perspective: 1000px;
+}
+
+.chat-input .footer-menu{
+    position: absolute;
+    /* border: 1px solid black; */
+    height: 30px;
+    width: 100%;
+    left: 0;
+    margin: 0;
+    overflow-x: scroll;
+    opacity: 0;
+    border-bottom: 1px solid #ddd;
+    transform: scale(0) translate(100px);
+    transition: all .5s ease;
+}
+
+.chat-input .menus{
+    position: relative;
+    height: 30px;
+    /* border: 2px solid black; */
+    width: 100%;
+    display: none;
+}
+
+.menus span{
+    padding: 3px 2px;
+    background-color: rgba(113, 185, 244, 0.8);
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 3px;
+}
+
+.chat-input .footer-menu .footer-menu-res{
+    position: absolute;
+    height: 100%;
+    /* height: 30px; */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 30px;
+}
+
+.chat-input .footer-menu.active{
+    position: relative;
+    opacity: 1;
+    transform: scale(1) translate(0);
+    transition: all .5s ease;
+
+}
+
+
+.chat-input .textarea, .open .textarea{
+    position: relative;
+    /* border: 1px solid red; */
+    display: flex;
+    width: 100%;
+    border-radius: 0 0 0 15px;
+    /* border-top: 1px solid #724ae8; */
+}
+
+.chat-input .textarea textarea, .open .textarea textarea{
+    height: 30px;
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 0.95rem;
+    resize: none;
+    border: none;
+    /* border: 2px solid blue; */
+    padding: 2px 10px;
+    max-height: 200px;
+    /* border: 1px solid black; */
+    border-radius: 0 0 0 15px;
+    bottom: 0;
+    pointer-events: auto;
+    padding-right: 50px;
+    opacity: 1;
+    /* transition: all .5s ease; */
+}
+
+.chat-input .textarea textarea.active{
+    pointer-events: none;
+    opacity: 0;
+    /* transition: all .5s ease; */
+}
+
+.chat-input .textarea .liker{
+    position: absolute;
+    right: 17px;
+    font-size: 1.35rem;
+    color: #724ae8;
+    bottom: 5px;
+    visibility: visible;
+    pointer-events: auto;
+    cursor: pointer;
+    bottom: 3px;
+    /* transition: all .4s ease; */
+}
+
+
+.chat-input span .sendI{
+    position: fixed;
+    align-items: flex-end;
+    height: 30px;
+    line-height: 30px;
+    color: #724ae8;
+    font-size: 1.35rem;
+    cursor: pointer;
+    padding: 0px 20px;
+    visibility: hidden;
+    pointer-events: none;
+    cursor: pointer;
+    bottom: 3px;
+    z-index: 10;
+    right: 10px;
+    /* transition: all .4s ease; */
+    /* border: 1px solid blue; */
+}
+
+.chat-input .textarea textarea:valid~span .sendI{
+    visibility: visible;
+    pointer-events: auto;
+    /* transition: all .4s ease; */
+}
+
+.chat-input .textarea textarea:valid~.liker{
+   visibility: hidden;
+   pointer-events: none;
+}
+
+
+
+/* css div qui contient les boutons supprimer repondre et signaler un message */
+
+.chat-input .btn-supp-reponse-signaler{
+    position: absolute;
+    width: 100%;
+    height: 35px;
+    bottom: 0;
+    padding: 3px;
+    left: 0;
+    /* border: 3px solid blue; */
+    justify-content: space-around;
+    background-color: #724ae8;
+    color: #fff;
+    cursor: pointer;
+    pointer-events: none;
+    transform: scale(0) translateY(1000px);
+    opacity: 0;
+    transition: all .5s ease;
+}
+
+.chat-input .btn-supp-reponse-signaler.active{
+    pointer-events: auto;
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    transition: all .5s ease;
+}
+
+.chat-input .btn-supp-reponse-signaler span{
+    display: flex;
+    text-align: center;
+    padding: 3px 5px;
+    border-radius: 8px;
+}
+
+.chat-input .btn-supp-reponse-signaler span:hover{
+    background-color: #fff;
+    color: #724ae8;
+}
+
+
+/* cacher le bouton de suppression et de signalement lorsque le message 
+a supprimer n'est pas le sien et le message a signaler est le sien
+ */
+ .btn-supp-reponse-signaler span:nth-child(1).active{
+    pointer-events: none;
+    opacity: .6;
+ }
+
+
+
+*::-webkit-scrollbar {
+	width: 0px;
+    height: 0px;
+}
+
+
+/* Taille du caractere latex */
+mjx-container {
+    font-size: 150%; /* Taille augmentée de 50% */
+    max-width: 100%;  /* Le conteneur ne peut pas dépasser la largeur de son parent */
+    overflow-x: auto; /* Pour éviter les débordements*/
+    white-space: normal; /* Permet les retours à la ligne automatiques */
+}
+
+
+/* css message pop-pup */
+.info-pop{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* top: 0; */
+    width: 100%;
+    z-index: 10;
+    height: 50px;
+    background-color: white;
+    color: blueviolet;
+    text-align: center;
+    max-height: 300px;
+    font-weight: bold;
+    border-radius: 15px 15px 0 0;
+    overflow-y: scroll;
+    border: 0;
+    transform: scale(0) translateY(-500px);
+    opacity: 0;
+    cursor: pointer;
+
+    transition: 1s all ease;
+}
+.info-pop.active{
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    transition: all 1s ease;
+
+}
+
+@media only screen and (max-width: 550px){
+    .chatbot {
+        position: absolute;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+        transition: all .5s ease-in-out;
+    }
+
+    .chat-input{
+        position: fixed;
+        bottom: 0;
+    }
+
+    .chatbot .chatbox {
+        height: 100vh;
+        /* border: 2px solid blue; */
+        padding-bottom: 100px;
+    }
+
+    .chatbot .header span{
+        display: block;
+    }
+
+    .info-pop{
+        border-radius: 0px;
+    }
+}
+
+
+
+
+
+@media only screen and (min-height: 1500px){
+    .chatbot .chatbox{
+        height: 1000px;
+    }
+}

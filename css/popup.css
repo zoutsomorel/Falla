@@ -1,0 +1,78 @@
+.popup{
+    position:fixed;
+    z-index:55;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width:100%;
+    height: 100%;
+    left:0px;
+    top:0px;
+    margin-left:0px;
+
+/*    background: red;*/
+    background:rgba(0,0,0,0.6);
+}
+
+
+.popup .info{
+    display: block;
+    padding:10px;
+    box-sizing:border-box;
+    background:white;
+    display:inline-block;
+    transition: 0.5s all;
+}
+
+.popup .divCour{
+   width:2000px;
+}
+
+
+.formCourCommentaire{
+    width:2000px;
+   /* margin-left: -30px;*/
+}
+
+/*button pour fermer le popup*/
+.closePopup{
+    position: fixed;
+    top:10px;
+    right:calc(50% - 950px);
+}
+
+@media screen and (max-width:2000px){
+    .popup .divCour,.formCourCommentaire{
+        width:90%;
+    }
+
+    .formCommentaire{
+        margin-left:0px;
+    }
+
+    /*.popup .cour{
+        width:100%;
+        left:0px;
+    }*/
+    .closePopup{
+        right: calc(5% + 16px);
+    }
+    .formCourCommentaire{
+/*        margin-left:-1px;*/
+        width:calc(90% - 17px);
+    }
+}
+
+@media screen and (max-width:800px){
+   .popup .affCours{
+        width:100%;
+        left:0px;
+        margin-left:0px;
+    }
+}
+@media screen and (max-height:400px){
+    .popup{
+        display: block;
+    }
+}

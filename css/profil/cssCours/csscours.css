@@ -1,0 +1,270 @@
+
+
+.cours-content, .exerice-content, .classeVirtuelle-content, .Question-content, .Event-content, .Dlearning-content{
+    position: absolute;
+    width: calc(100% - 100px);
+    height: 100%;
+}
+
+.cours, .exercice, .classeVirtuelle, .Question, .Event, .Dlearning{
+    height: 100%;
+    width: 100%;
+}
+.m-p {
+/*    position:fixed;*/
+    /* width: calc(100% - 50px); */
+    background-color: blueviolet;
+    /* padding-left: 50px; */
+    /* border: 2px solid black; */
+}
+
+.m-p .men{
+    /* border: 2px solid red; */
+    /* overflow-x: scroll; */
+    margin-left: 40px;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+
+
+}
+
+.btn-retour{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+    /* border: 2px solid black; */
+    left: 1px;
+    top: 8px;
+/*    background-color: white;*/
+    color:black;
+    z-index: 10;
+    pointer-events: auto;
+    opacity: 1;
+    transition: all .5s ease;
+    cursor:pointer;
+    /* transform: rotate(0); */
+}
+
+.btn-retour.active{
+    opacity: 0;
+    pointer-events: mone;
+}
+
+
+
+.btn-retour i{
+    font-size: 25px;
+    color:white;
+/*    color: blueviolet;*/
+}
+
+
+/* css barre de recherche du cours  */
+
+.s-profil{
+    position: absolute;
+    top: 10px;
+    height: 40px;
+    /* width: 200px; */
+    /* border: 1px solid black; */
+    right: 4px;
+    border-radius: 25px;
+    border:0;
+    background-color: rgb(149, 124, 172);
+}
+
+.s-profil input {
+    border:0;
+    outline: none;
+}
+.s-profil i{
+    position: absolute;
+    right: 7px;
+    margin-top: 10px;
+    font-size: 20px;
+    /* border:0; */
+    /* z-index: 1; */
+}
+
+
+.s-profil-min{
+    position: absolute;
+    top: 10px;
+    height: 40px;
+    width: 98%;
+    /* width: 200px; */
+    /* border: 1px solid black; */
+    margin-left: 5px;
+    margin-right: 5px;
+    border-radius: 25px;
+    border:0;
+    z-index: -1;
+}
+
+.s-profil-min.active{
+    z-index: 10;
+}
+
+.s-profil-min input{
+  
+    pointer-events: none;
+    transform: scale(0.1) rotate(45deg);
+    opacity: 0;
+    transition: all .4s ease;
+    transform-origin: top right ;
+    background-color: white;
+    border: none;
+    outline: none;
+    z-index: 10;
+} 
+
+.s-profil-min i{
+    position: absolute;
+    right: 7px;
+    margin-top: 10px;
+    font-size: 20px;
+    opacity: 1;
+    color: white;
+    /* border:0; */
+    z-index: 11;
+}
+.s-profil-min input.active{
+    pointer-events: auto;
+    transform: scale(1) rotate(0);
+    opacity: 1;
+    transform-origin: top right ;
+    transition: all .4s ease;
+   
+}
+.s-profil-min i.active{
+    color: black;
+}
+
+
+.i-search{
+    height: 100%;
+    width: 100%;
+    padding-right: 25px;
+    padding-left: 7px;
+    border-radius: 25px;
+}
+
+/* //formulaire de creation du cours  */
+
+.form-create-cours{
+    pointer-events: none;
+    opacity: 0;
+    top: 5px;
+    transform: scale(0);
+    transform-origin: top right;
+    transform: rotate(90deg) translateX(30%);
+    width: auto;
+    transition: all .4s ease;
+    /* z-index: 10; */
+}
+
+/* bouton pour afficher le formulaire de creation du cours lors du click */
+.btn-createCours{
+    position: absolute;
+    top: 0px;
+    right: 5px;
+    z-index: 10;
+    margin-top: 2px;
+}
+.form-create-cours.active{
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1);
+    transform-origin: top right;
+    transition: all .4s ease;
+    transform: rotate(0deg) translateY(0);
+
+}
+
+.btn-createCours{
+    opacity: .5;
+ }
+
+/* bouton pour sortir du profil */
+
+
+
+
+@media only screen and (min-width:500px){
+    .s-profil{
+        width: 200px;
+    }
+
+    .m-p .men{
+        width: calc(100% - 200px);
+    }
+
+    .s-profil-min{
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(0);
+    } 
+
+}
+
+@media only screen and (min-width:768px){
+    .s-profil{
+        width: 330px;
+    }
+
+    .m-p .men{
+        width: calc(100% - 330px);
+    }
+
+    .form-create-cours{
+        width: 500px;
+    }
+
+    .btn-retour{
+        left: 75px;
+    }
+
+    .btn-createCours{
+        opacity: 1;
+     }
+
+     .btn-retour{
+        opacity: 1;
+     }
+
+
+
+}
+
+@media only screen and (min-width:992px){
+    .s-profil{
+        width: 450px;
+    }
+
+    .m-p .men{
+        width: calc(100% - 450px);
+    }
+
+}
+
+
+@media only screen and (max-width:499px){
+    .s-profil{
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(0);
+    }
+
+    
+
+    /* .btn-retour{
+        left: 0;
+    } */
+
+  
+
+
+}
+

@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>
+		Accueil
+	</title>
+	<link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="../css/fontawesome.css">
+	<link rel="stylesheet" type="text/css" href="../css/font_family.css">
+	<link rel="stylesheet" type="text/css" href="../css/popup.css">
+	<link rel="stylesheet" type="text/css" href="../css/morel.css">
+	<!-- <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" /> -->
+  <!-- <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script> -->
+	<style type="text/css">
+		form .input{
+/*			margin-left: 10px;*/
+			width:calc(100% - 15px);
+			margin-top:5px;
+			bpx-sizing:border-box;
+			border-radius:4px;
+		}
+		input{
+			outline:none;
+		}
+
+		.suiv{
+			z-index:10;
+			position:sticky;
+			display: inline-block;
+			top:calc(100vh - 150px);
+			width:100px;
+			padding:10px;
+			z-index:10;
+			text-align: center;
+		}
+		.affProd{
+			margin-top:20px;
+			display: grid;
+			width:100%;
+			grid-gap:10px;
+			justify-content: center;
+			grid-template-columns: repeat(auto-fit, minmax(0px, 250px));
+		}
+		@media screen and (max-width:803px){
+			.affProd{
+				grid-template-columns: repeat(auto-fit, minmax(0px,200px));
+			}
+		}
+		@media screen and (max-width:660px){
+			.affProd{
+				grid-template-columns: repeat(auto-fit, minmax(0px, calc(50% - 10px)));
+			}
+		}
+	</style>
+</head>
+<body>
+<div id='menu'></div>
+<div id='appe'>
+
+</div>
+<script src='../MorelLibraryJs/morel_dom.js'></script>
+<script src='../MorelLibraryJs/morel_blob.js'></script>
+<script src='../MorelLibraryJs/selectImage.js'></script>
+<script src='../MorelLibraryJs/selectRecherche.js'></script>
+<script src='../components/opacity.js'></script>
+<script src='../components/popup.js'></script>
+<script src='js/NavigationTitre.js'></script>
+<script src='js/map.js'></script>
+
+<script type="text/javascript">
+	if(typeof(dom)=='undefined') dom=new Morel_Dom();
+	class AfficheProduit extends Morel_Dom{
+		static div=[];
+		constructor(div,produit){
+			super();
+			if(div){
+				this.div=div;
+				this.produit=produit;
+				this.div.innerHTML=this.body();
+				this.affPlus();
+				this.itineraire();
+			};
+			this.max=2;
+		}
+
+		static ajusteDiv(d){
+			let div=dom.getChild(d,'divProduit').map(e=>e.parentElement);
+			const pos=(e)=>{
+				return {
+	        top:e.offsetTop,
+	        left:e.offsetLeft,
+	        width:e.offsetWidth,
+	        height:e.offsetHeight 
+		    }
+			}
+			div.forEach(e=>e.style.marginTop='0px');
+			for(let i=1;i<div.length;i++){
+				let d=div[i];
+				let posD=pos(d);
+				for(let j=i-1;j>=0;j--){
+					let a=div[j];
+					let posA=pos(a);
+					if(posA.left==posD.left){
+						let posP=pos(dom.getChild(a,'divProduit')[0]);
+						let dif=posD.top-(posA.top+posP.height+20);
+						if(dif>0){
+							d.style.marginTop='-'+dif+'px';
+						}
+						break;
+					}
+				}
+			}
+		}
+
+		body(type=''){
+			return this.balise(
+				this.htmlBody(type)
+			)
+		}
+
+		htmlBody(type){
+			return this.element(
+				'div',
+				{
+					id:'divProduit',
+					class:`w-100 rounded-20 border-box bg-white ${(type=='aff' || type=='a')?'':'shadow'}`,
+					style:'padding:10px'
+				},
+				[this.nomProduit(type),this.vue(),this.image(type),this.prix(type),this.btnItineraire(type),this.description(type)]
+			)	
+		}
+
+		ajustePos(type){
+			let isType=type=='aff';
+			return ``
+		}
+
+		vue(type){
+			return this.element(
+				'div',
+				{
+					class:'text-right px-2 border-box',
+					style:`${this.ajustePos(type)};position:relative;top:40px;margin-top:-30px`
+				},
+				this.element(
+					'div',
+					{
+						class:'px-2 rounded suspention',
+						style:'display:inline-block;background:rgba(200,200,200,0.9);font-size:13px'},
+					[this.element('i',{class:'fa fa-eye'}),' ',this.element('span',{id:'nbrVue',class:'mx-1'},'20k')]
+				)
+			)
+		}
+
+		prix(type){
+			return this.element(
+				'div',
+				{
+					class:'text-left px-2 border-box',
+					style:`${this.ajustePos(type)};position:relative;top:-5px;margin-top:-30px`
+				},
+				this.element(
+					'div',
+					{
+						class:'px-2 rounded suspention text-white',
+						style:'display:inline-block;background:rgba(0, 80, 0,0.9);font-size:13px'},
+					[this.element('i',{class:'fas fa-coins'}),' ',this.element('span',{id:'nbrVue',class:'mx-1'},this.produit.prix || '10000 fcfa')]
+				)
+			)
+		}
+
+		image(type=''){
+			let isType=type=='aff';
+			return this.element(
+				'div',
+				{
+					class:'border rounded p-2 border-box my-2',
+					style:`${this.ajustePos(type)};`,
+					attribute:"align='center'"
+				},
+				this.element('img',{text:this.produit.profil,class:'w-100',style:'height:100%'})
+			)
+		}
+
+		btnItineraire(type=''){
+			let isType=type=='aff';
+			let a=0;
+			const div=(bal='div',classe,text,icon)=>{
+				a++;
+				return this.element(
+					'div',
+					{class:`w-50 h-100 flex-center ${a%2==0?'justify-content-right':'justify-content-left'}`,style:"font-family:system-ui,-apple-system;"},
+					this.element(bal,{class:(classe || '')+' w-90 suspention',style:"font-size:12px"},
+						[this.element('i',{class:'px-1 '+icon}),text]
+					)
+				)
+			}
+			return this.element(
+				'div',
+				{
+					class:'flex my-2',
+					style:``
+				},
+				[['div','btn text-left px-0',this.produit.categorie,'fas fa-tags'],['button','btn px-0 border-box bg-primary itineraire text-white','Itineraire','fa fa-route']].map((e,i)=>{
+						if(type=='a' && i==1) return '';
+						return div(...e)
+					})
+			)
+		}
+
+		resume(a,p=40){
+			let n='';
+			for(let i=0;i<p;i++){
+				if(!a[i]) break;
+				n+=a[i];
+			}
+			if(p<a.length) n+='...';
+			return n;
+		}
+
+		nomProduit(type){
+			let isType=type=='aff';
+			console.log(this.resume(this.produit.nom));
+			return this.element(
+				'div',
+				{
+					class:'fw-bold text-center family-morel',
+					style:``
+				},
+				isType?this.produit.nom:this.resume(this.produit.nom)
+			)
+		}
+		description(type){
+			let isType=type=='aff';
+			return this.element(
+				'div',
+				{
+					class:'p-2 border-box rounded text-left',
+					style:`font-size:13px;font-family:system-ui,-apple-system;background:#f2f2f2;text-indent:justify`
+				},
+				isType?this.produit.description || 'Produit de super qualite a un prix imbatable, venez decouvrir la revolution':this.resume(this.produit.description || 'Produit de super qualite a un prix imbatable, venez decouvrir la revolution')
+			)
+		}
+
+		affPlus(){
+			let img=this.getChild(this.div,'img')[0];
+			img.onclick=()=>{
+				let div=popup(this.body('aff'));	
+				this.itineraire(div);
+			}
+		}
+
+		titre(titre,sticky=false,pos={}){
+			return this.element(
+				'div',
+				{class:'w-100 bg-white',style:`margin-top:50px;${sticky?`position:sticky;top:${pos.top || 'none'};left:${pos.left || 'none'}`:''}`},
+				[this.element('h4',{class:'text-left titre suspention w-100'},titre),
+				this.element('hr',{style:'margin-left:0px;width:calc(100% - 20px)'})]
+			)
+		}
+
+		itineraire(di){
+			let btn=dom.getChild(di || this.div,'itineraire')[0];
+			btn.onclick=()=>{
+				let div=popup(this.balise(
+					this.element(
+						'',
+						{},
+						[
+							this.element('div',{class:'container-500'},this.htmlBody('a')),
+							this.titre('Itineraire du produit'),
+							this.element('div',{class:'w-100 map'})
+						]
+					)
+				),false,true,'container-800');
+				this.htmlMap(div);
+			}
+		}
+
+		async htmlMap(div){
+			let d=this.getChild(div,'map')[0];
+			let pos=await Geolocation();
+			if(pos){
+				console.log(pos);
+				// [pos,pos.map(e=>e-0.10)]
+				new Map(d,pos,[pos,pos.map(e=>e-0.01)])
+			}
+		}
+
+		htmlTitre(titre,t=true){
+			return this.element('div',
+				{
+					style:'position:sticky;top:50px;background:white;z-index:10'
+				},[
+				this.element('div',
+					{
+						class:'w-100 flex'
+					},
+					[
+						this.element('h4',{class:'text-left flex-center justify-content-left',style:'width:calc(100% - 20px)'},titre),
+						t?this.element('div',{style:'width:20px',class:'justify-content-right'},
+							this.element('i',{class:'fa fa-angle-right fw-bold fs-5 pointer'})
+						):'',
+					]
+				),this.element('hr',{class:'my-1',style:'margin-left:0px'}),
+
+				this.element('div',{class:'w-100 flex justify-content-right'},
+					this.element('div',{style:'width:250px'},this.htmlRecherche())
+				)
+			])
+		}
+
+		htmlGroupProd(titre){
+			const htmlTitre=this.htmlTitre(titre);
+			return this.balise(
+				this.element(
+					'div',
+					{class:'container-2000 border-box px-2'},
+					[
+						this.element('div',{id:'titreProd',style:'position:absolute;margin-top:-50px;visibility:hidden'},titre),
+						htmlTitre,
+						this.element('div',{class:'affProd'}),'<br/>',
+						this.element('div',{class:'text-center'},
+							this.element('button',{style:'padding:10px 20px',class:'plus btn border bg-primary fw-bold text-white'},
+								[this.element('i',{class:'fa fa-angle-down'}),' Plus']
+							)
+						),'<br/>'
+					]
+				)
+			);
+		}
+
+		static async affProduit(prod,div,titre){
+			if(!this.produit) this.produit={};
+			this.produit[titre]=prod;
+			let da=document.createElement('div');
+			da.innerHTML=(new AfficheProduit()).htmlGroupProd(titre);
+			div.appendChild(da);
+			const affProd=dom.getChild(da,'affProd')[0];
+			let di=[];
+			const put=(i)=>{
+				if(!this.produit[titre][i]) return;
+				let d=document.createElement('div');
+				affProd.appendChild(d);
+				new AfficheProduit(d,this.produit[titre][i]);
+			}
+
+			for(let i=0;i<6;i++){
+				put(i);
+			}
+
+			setTimeout(()=>{AfficheProduit.ajusteDiv(da)},100);
+			window.addEventListener('resize',()=>{AfficheProduit.ajusteDiv(da)})
+			let btn=dom.getChild(da,'plus')[0];
+			btn.onclick=()=>{
+				(new AfficheProduit()).plusProduit(this.produit[titre],titre)
+			}
+
+			dom.getChild(da,'search')[0].onclick=async ()=>{
+				let a=await (new AfficheProduit()).plusProduit(this.produit[titre],titre);
+				dom.getChild(a,'search')[0].focus();
+			}
+		}
+
+		htmlRecherche(){
+			const recherche=this.element('div',{class:'flex border rounded-20 w-100'},
+					[
+						this.element('div',{class:'flex-center',style:'background:#f2f2f2;border-radius:20px 0px 0px 20px;width:50px;height:inherit'},this.element('i',{class:'fa fa-search'})),
+						this.element('div',{style:'width:calc(100% - 50px)'},
+							this.element('input',
+								{
+									id:'search',
+									class:'w-100 px-2 py-1 border-box border',
+									attribute:"placeholder='Recherche...'",
+									style:'border-radius:0px 20px 20px 0px'
+								})
+						)
+					]
+				)
+			return recherche;
+		}
+
+		async plusProduit(prod,titre,div){
+			const tit=this.element('div',
+				{class:'px-2'},
+				[
+					this.element('h4',{class:'text-left'},titre),
+					this.element('hr',{class:'my-2'})
+				]
+			);
+			
+			let html=this.balise(this.element('',{},
+				[
+					this.element('div',{style:'position:sticky;top:0px;z-index:10',class:'bg-white'},
+						[
+							tit,
+							this.element('div',{class:'w-100 flex justify-content-right'},
+								this.element('div',{style:'width:250px'},this.htmlRecherche())
+							)
+						]
+					),
+					this.element('div',{class:'affProd'})
+				]
+			));
+
+			let tes=false;
+			if(div){
+				div.innerHTML=html;
+			}else{
+				tes=true;
+				div=popup(html,false,true,'container-1000 px-0')
+			}
+
+			let affProd=this.getChild(div,'affProd')[0];
+			let di=[];
+
+			const put=(i)=>{
+				if(!prod[i]) return;
+				let d=document.createElement('div');
+				affProd.appendChild(d);
+				new AfficheProduit(d,prod[i]);
+				di=d;
+			};
+
+			let pos=0;
+			for(let i=pos;i<pos+this.max;i++) put(i);
+			pos+=this.max
+			let info=this.getChild(div,'info')[0] || div;
+
+			const observer = new IntersectionObserver((entries) => {
+		    entries.forEach(entry => {
+	        if (entry.isIntersecting) {
+	          for(let i=pos;i<pos+this.max;i++) put(i);
+						pos+=this.max
+						setTimeout(()=>{AfficheProduit.ajusteDiv(div)},100);
+						observer.observe(di);
+	        }
+		    });
+				},{ threshold: 0.8 }
+			);
+			observer.observe(di);
+			setTimeout(()=>{AfficheProduit.ajusteDiv(di)},100);
+			window.addEventListener('resize',()=>{AfficheProduit.ajusteDiv(div)})
+			return div;
+		}
+	}
+
+function Geolocation(){
+	return new Promise((success)=>{
+		let d;
+		if ("geolocation" in navigator) {
+	    navigator.geolocation.getCurrentPosition(
+	        (position) => {
+	            success([position.coords.latitude,position.coords.longitude]);
+	        },
+	        (error) => {
+	          if(typeof(popup)!='undefined'){
+	          	d=popup("<h4 class='text-danger'>Veillez accepter la geolocalisation</h4>");
+	         		d.onclick=()=>{
+	         			opacityRemove(d);
+	         			success(Geolocation());
+	         		}
+	          }
+	        }
+	    );
+		}else{
+			success(false);
+			popup("<h4 class='text-danger'>Impossible de vous geolocalisez");
+		}
+	})
+}
+
+/*
+	cette classe creer le menu qui sera compose du logo et des sous menu a savoir la recherche le filtre discution
+*/
+
+class Menu extends Morel_Dom{
+	constructor(div){
+		super();
+		this.div=div;
+		this.div.classList.add('flex','p-2','border-box','w-100','bg-white','shadow');
+		this.div.style.position='fixed';
+		this.div.style.left='0px';
+		this.div.style.top='0px';
+		this.div.style.zIndex='20';
+		this.div.innerHTML=this.body();
+		this.evenement();
+	}
+
+	body(){
+		const logo=this.element(
+			'div',
+			{
+				style:'width:80px'
+			},
+			[this.element('img',{class:'fa fa-search px-2',text:'../img/fallaLogo.png',style:'width:100%'})]
+		);
+
+		const sousMenu=this.element('div',
+			{
+				class:'flex-center justify-content-right',
+				style:'width:calc(100% - 84px)'
+			},
+			['home','message','tags','search','user'].map(e=>{
+				return this.element('div',{class:'px-2 pointer'},this.element('i',{class:'fa fa-'+e}))
+			})
+		)
+
+		return this.balise(this.element('',{},
+			[logo,sousMenu]
+		))
+	}
+
+	evenement(){
+		let i=this.getChild(this.div,'i');
+		new Recherche(i[3]);
+		i[2].onclick=()=>{
+			if(NavigationTitre.div['Categorie']){
+				this.getChild(NavigationTitre.div['Categorie'],'Categorie')[0].click();
+			}
+		}
+		i[0].onclick=()=>{location.href="accueil.html"}
+	}
+} 
+
+// cette vas permettre d'effectuer les recherches sur les produits de facons generale
+class Recherche extends Morel_Dom{
+	constructor(div,url){
+		super();
+		div.onclick=(e)=>{
+			this.body();
+		}
+	}
+
+	body(){
+		let aff=new AfficheProduit();
+		let html=this.element('',{},
+			[
+				this.element('div',{class:'container-500'},
+					this.element('div',{class:'px-2'},aff.htmlRecherche())
+				),
+				this.element('div',{class:'px-2'},aff.titre('Resultat')),
+				this.element('div',{class:'affProd'})
+			]
+		);
+		this.div=popup(this.balise(html),false,true,'container-1000 px-0');
+		this.evenement();
+	}
+
+	evenement(){
+		this.divProd=this.getChild(this.div,'affProd')[0];
+		this.titre=this.getChild(this.div,'titre')[0];
+
+		this.getChild(this.div,'search')[0].onkeyup=(e)=>{
+			let val=e.target.value.toLowerCase();
+			this.titre.innerHTML="Resultat "+this.balise(this.element('b',{class:'text-warning'},val));
+		}
+	}
+
+}
+
+	
+
+
+	/*
+		cette classe permet de naviguer de titre en titre a travers des bouttons
+	*/
+
+
+
+	// let produit=new AfficheProduit(app,{profil:'../img/1.jpg',nom:'Talon',categorie:'chaussure'});
+	// 	let produit1=new AfficheProduit(ap,{profil:'../img/5.jpg',nom:'Lit',categorie:'Maison',prix:'150k fcfa'});
+	// 	new AfficheProduit(ap1,{profil:'../img/2.jpg',nom:'airNigth',categorie:'chaussure',prix:'20000 fcfa'});
+	// 	new AfficheProduit(ap2,{profil:'../img/3.jpg',nom:'Lait',categorie:'beaute'});
+	// 	new AfficheProduit(ap3,{profil:'../img/4.jpg',nom:'Lit',categorie:'Maison',prix:'100k fcfa'});
+	// 	new AfficheProduit(ap4,{profil:'../img/6.jpg',nom:'Sac a dos',categorie:'sacs',prix:'2000 fcfa'});
+		AfficheProduit.affProduit(
+			[
+				{profil:'../img/1.jpg',nom:'Talon',categorie:'chaussure'},
+				{profil:'../img/5.jpg',nom:'Lit',categorie:'Maison',prix:'150k fcfa'},
+				{profil:'../img/6.jpg',nom:'Sac a dos',categorie:'sacs',prix:'2000 fcfa'},
+				{profil:'../img/4.jpg',nom:'Lit',categorie:'Maison',prix:'100k fcfa'},
+				{profil:'../img/3.jpg',nom:'Lait',categorie:'beaute'},
+				{profil:'../img/2.jpg',nom:'airNigth',categorie:'chaussure',prix:'20000 fcfa'}
+			],
+			appe,
+			'Ustensile'
+		);
+		AfficheProduit.affProduit(
+			[
+				{profil:'../img/1.jpg',nom:'Talon',categorie:'chaussure'},
+				{profil:'../img/5.jpg',nom:'Lit',categorie:'Maison',prix:'150k fcfa'},
+				{profil:'../img/6.jpg',nom:'Sac a dos',categorie:'sacs',prix:'2000 fcfa'},
+				{profil:'../img/4.jpg',nom:'Lit',categorie:'Maison',prix:'100k fcfa'},
+				{profil:'../img/3.jpg',nom:'Lait',categorie:'beaute'},
+				{profil:'../img/2.jpg',nom:'airNigth',categorie:'chaussure',prix:'20000 fcfa'}
+			],
+			appe,
+			'Motos'
+		);
+		new NavigationTitre(appe,'titreProd',"Categorie");
+		new Menu(menu);
+</script>
+</body>
+</html>

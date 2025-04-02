@@ -1,0 +1,329 @@
+.create-qcms{
+    position: fixed;
+    bottom: 10px;
+    right:10px
+}
+.contain{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    box-shadow: 4px 8px 15px rgba(0, 0, 0, 0.4);
+   
+    /* border: 4px solid black; */
+}
+
+.body_questions{
+    /*display: flex;*/
+    margin: 0;
+    /*justify-content: center;*/
+    /* opacity: 0; */
+    /* transform: scale(0); */
+    transform-origin: bottom left;
+    transition: all .5s ease;
+}
+
+.body_questions.active{
+    opacity: 1;
+    transform: scale(1);
+    transform-origin: bottom left;
+    transition: all .5s ease;
+}
+
+.header{
+    /* justify-content: space-between; */
+    background-color: fff;
+    color: blueviolet;
+    box-shadow: 4px 8px 15px rgba(0, 0, 0, 0.4);
+}
+
+.header .row{
+    width: 80%;
+}
+
+ .header-qcm{
+    box-shadow: 4px 8px 15px rgba(0, 0, 0, 0.4);
+    transition: all 1s ease;
+    width: 80%;
+}
+
+
+/* bouton pour grnerer le qcm */
+.generate-qcm{
+    margin-left: auto;
+    background-color: rgba(138,43 , 226, 0.6);
+}
+
+
+/* div des liens pour accder directement au section (div)*/
+.proposition-racourcie a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    /* width: 40px;
+    height: 35px; */
+    padding: 2px 5px;
+    border-radius: 10px;
+    color: white;
+    background-color: rgba(138,43 , 226, 0.7);
+}
+
+.sticky{
+    position: -webkit-sticky;
+    position: sticky;
+    top: 150px;
+}
+
+.containers-Qcm{
+   align-items: center;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+
+    margin: 30px auto;
+    padding: 10px;
+    scroll-behavior: smooth;
+    transition: all 1s ease;
+    /* box-shadow: 4px 8px 15px rgba(0, 0, 0, 0.4); */
+}
+
+
+
+.containers-Qcm section {
+    position: sticky;
+    /* border: 2px solid black; */
+    top: 5px;
+    border-radius: 10px;
+    padding: 0px 5px 10px 10px;
+    margin: 10px 5px;
+    opacity: 0;
+    width: 80%;
+    background-color: white;
+    transform: scale(0.8) translateY(0px);
+    transform-origin: top left;
+    transition: transform 0.3s ease ,opacity 0.3s ease-out;
+    /* width: 900px; */
+    /* box-shadow: 4px 8px 15px rgba(0, 0, 0, 0.4); */
+    box-shadow: 4px 8px 15px rgba(138,43 , 226, 0.6);
+}
+
+.containers-Qcm section.active{
+    top: auto;
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    transform-origin: top left;
+    transition: all .3s ease;
+}
+
+
+.containers-Qcm section .supp{
+    font-size: 25px;
+    margin-left: auto;
+}
+
+.containers-Qcm section.supp{
+    transform: scale(0.5);
+    height: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    opacity: 0;
+    transform: translateY(-100px);
+}
+
+
+.header-section{
+    /* border: 1px solid blue; */
+    height: 40px;
+    margin: 5px 0;
+    overflow-x: scroll;
+}
+
+section .proposition{
+    pointer-events: none;
+    opacity: 0;
+    transform: scale(1);
+    transform-origin: top left;
+    transition: transform 0.3s ease ,opacity 0.3s ease-out;
+}
+
+section .proposition.supp{
+    transform: scale(0.8);
+    height: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    opacity: 0;
+    transform: translateY(-100px);
+}
+
+.proposition textarea{
+    resize: none;
+}
+
+.proposition i.fa-times, .reponse i.fa-info{
+    opacity: 0;
+    transition: all .4s ease;
+}
+
+
+
+.proposition:hover i.fa-times{
+    opacity: 1;
+    transition: all .4s ease;
+    cursor: pointer;
+}
+
+section .proposition.active{
+    pointer-events: auto;
+    opacity: 1;
+    transform: scale(1);
+    transform-origin: top left;
+    transition: all .4s ease;
+
+}
+
+.footer-section{
+    margin-top: 10px;
+    /* border: 10px solid black; */
+}
+
+.btn-add, .btn-add-1, .btn-add-typeQcm{
+    padding: 5px 10px;
+    margin: 2px 1px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: 1px solid gray;
+    transition: all .7s ease;
+    /* color: white; */
+}
+
+
+.btn-add:hover, .btn-add-1:hover {
+    background-color: black;
+    color: #fff;
+    transition: all .7s ease;
+}
+
+
+
+/* div qui contient le numero des questions */
+.btn-add-nbre{
+    /* background-color: rgba(255, 199, 200, 1); */
+    background-color: rgba(138,43 , 226, 0.6);
+    color: white;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    position: absolute;
+    padding: 20px;
+    width: 30px;
+    height: 30px;
+    border-radius:30px ;
+    margin:1px 0 0 -55px;
+    
+}
+
+/* div qui contient le bouton terminer permettant de donner l'etat d'un qcm */
+/* ie le qcm est bon ou pas selon la norme */
+
+section .btn-add-terminer{
+    opacity: 0;
+    transform: scale(0);
+    position: absolute;
+    pointer-events: none;
+    transition: all .4s ease;
+}
+
+section .btn-add-terminer.active{
+    opacity: 1;
+    pointer-events: auto;
+    transition: all .4s ease;
+}
+
+.containers-Qcm .label-item{
+    display: block;
+    padding: 7px;
+    cursor: pointer;
+    margin-top: 3px;
+    border: 1px dashed #ccc;
+
+}
+
+.containers-Qcm label:hover{
+    background-color: #cec0fc;
+}
+
+.btn-add-qcm{
+    position: fixed;
+    bottom: 5px;
+    padding: 4px 9px;
+    right: 10px;
+}
+
+.reponse {
+    opacity:0;
+    pointer-events:none;
+    transform:scale(0) translate(100px);
+    position: absolute;
+    transform-origin: top left; transition: all .6s ease
+}
+
+.proposition label, .reponse label{
+    /* overflow-x: scroll; */
+    width: 260px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/*  active la proposition juste */
+.reponse.active{
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1) translate(0);
+    transform-origin: top left;
+    position: relative;
+    transition: all .5s ease;
+}
+
+
+
+*::-webkit-scrollbar {
+	width: 0;
+    height: 0;
+}
+
+
+ul{
+    
+}
+
+/* //pour les peitis ecrans  */
+
+@media only screen and (max-width: 1200px){
+    .containers-Qcm, .header-qcm{
+        width: 100%;
+    }
+
+    .containers-Qcm section, .header-qcm .row{
+        width: 100%;
+    }
+
+    .header-section{
+        margin-left: 35px;
+    }
+
+    .btn-add-nbre{
+        margin:-4px 0 0 -20px;
+    }
+
+}
+
+@media only screen and (max-width: 1000px){
+    
+    .proposition i.fa-times, .reponse i.fa-info{
+        opacity: 1;
+        transition: all .4s ease;
+    }
+}

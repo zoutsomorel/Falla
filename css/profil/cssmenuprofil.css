@@ -1,0 +1,110 @@
+.tab .menuPc{
+    width: 75px;
+    position: absolute;
+    top: 60px;
+     height: calc(100% - 60px);
+    left: 0;
+    background-color: blueviolet;
+    z-index: 5;
+}
+
+
+@media only screen and (min-height: 2000px){
+.tab .menuPc{
+    height: 1500px;
+}
+}
+
+.tab .profil{
+    width: 75px;
+    height: 100px;
+    position: absolute;
+    left: 0px;
+    background-color: white;
+    border-bottom: 2px solid white;
+    color: white;
+    z-index: 5;
+}
+
+.tab .ul_pc{
+    width: 100%;
+    height: 100%;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    padding: 15px 0;
+    position: relative;
+}
+
+.ul_pc li{
+    width: 60px;
+    height: 60px;
+    /* background-color: #fff; */
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    border-radius: 50%;
+    z-index: 5;
+    transition: all .5s ease;
+}
+
+.ul_pc .indi{
+    background-color: burlywood;
+    position: absolute;
+    transition: all .4s;
+    /* top: 25px; */
+    border-radius: 20px;
+    transform: rotate(45deg) scale(1.2) translateX(25px);
+    z-index: 1;
+    pointer-events: none;
+    /* opacity: 0; */
+}
+
+.ul_pc .indi.active{
+    transform: rotate(180deg);
+}
+
+
+.active-menu{
+    transform:translateX(25px);
+}
+
+
+.menuM{
+    width: 50px;
+    height: 3px;
+    background-color: blue;
+    position: absolute;
+    /* transition: all .4s; */
+    z-index: 1;
+    bottom: 0;
+    pointer-events: none;
+}
+
+.move{
+    transition: all .4s; 
+}
+
+
+*::-webkit-scrollbar{
+	width: 5px;
+    background:white;
+}
+
+
+/* 
+*::-webkit-scrollbar-track{
+	background: #f1f1f1;
+}
+
+*::-webkit-scrollbar-thumb {
+	background: #f1f1f1;
+}
+
+*::-webkit-scrollbar-thumb:hover{
+	background: #f1f1f1;
+} */

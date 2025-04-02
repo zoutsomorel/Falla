@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>
+		Formulaire de creation d'un produit
+	</title>
+	<link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="../css/fontawesome.css">
+	<link rel="stylesheet" type="text/css" href="../css/popup.css">
+	<link rel="stylesheet" type="text/css" href="../css/morel.css">
+	<style type="text/css">
+		form .input{
+/*			margin-left: 10px;*/
+			width:calc(100% - 15px);
+			margin-top:5px;
+			bpx-sizing:border-box;
+			border-radius:4px;
+		}
+		input{
+			outline:none;
+		}
+	</style>
+</head>
+<body>
+<script src='../MorelLibraryJs/morel_dom.js'></script>
+<script src='../MorelLibraryJs/morel_blob.js'></script>
+<script src='../MorelLibraryJs/selectImage.js'></script>
+<script src='../MorelLibraryJs/selectRecherche.js'></script>
+<script src='../components/opacity.js'></script>
+<script src='../components/popup.js'></script>
+<script type="text/javascript">
+	if(typeof(dom)=='undefined') dom=Morel_Dom();
+
+	class FormProduit{
+
+		static form(produit={}){
+			this.isMod=produit._id?true:false;
+			const input=(titre,value,type='text')=>{
+				return dom.element(
+					'div',
+					{
+						class:'py-2'
+					},
+					[
+						dom.element('span',{},titre),'<br/>',
+						dom.element(type=='area'?'textArea':'input',{class:'input form-control',attribute:`placeholder='${titre}' type='${type}'`,text:value || ''})
+					]
+				)
+			}
+
+			const div=(titre,id)=>{
+					return dom.element(
+						'div',
+						{
+							class:'py-2'
+						},
+						[
+							dom.element('span',{},titre),'<br/>',
+							dom.element('div',{id:id,class:'input form-control'},'')
+						]
+					)
+			}
+
+			return dom.element(
+				'form',
+				{class:'w-100 text-left border-box px-1'},
+				[
+					dom.element('h4',{class:'text-center'},produit._id?'Modifier le produit '+produit.designation:'Nouveau produit'),
+					input('Entrer la designation du produit',produit.designation),
+					div('Choisir la photo de profil','divImage'),
+					input('Prix du produit (fcfa)',produit.prix,'number'),
+					div('Categorie du produit','divCategorie'),
+					input('Description du produit',produit.description,'area')
+				]
+			)
+		}
+
+		static creer(){
+			let div=popup(dom.balise(this.form({})),false,true,'container-800');
+			this.submit(div,'post');
+		}
+
+		static modifier(id){
+			let div=popup(dom.balise(this.form({})),false,true,'container-800');
+			this.submit(div,'put',id);
+		}
+
+		static submit(div,type='post',id=''){
+			let produit={};
+			if(id!='' && type!='post'){
+
+			}
+			let profil=new SelectImage(dom.getChild(div,'divImage'),produit.profil || '');
+			let categorie=new SelectRecherche(dom.getChild(div,'divCategorie'),['informatique','boissons','jus'],'a',produit.categorie);
+
+			dom.getChild(div,'form')[0].onsubmit=(e)=>{
+				e.preventDefault();
+
+			}
+		}
+	}
+	FormProduit.creer();
+	// const profilProduct=new SelectImage("#divImage",'');
+	// const categorie=new SelectRecherche('#categories',['informatique','boissons','jus']);
+</script>
+</body>
+</html>
