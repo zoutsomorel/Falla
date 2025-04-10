@@ -1,10 +1,13 @@
 if(typeof(blob)=='undefined') blob=new Morel_Blob();
 class SelectImage extends Morel_Dom{
-		constructor(div,image){
+		constructor(div,image,func){
 			super();
+			this.func=func;
 			this.div=this.select(div);
 			this.image=image || '';
-			this.div.innerHTML=this.body();
+			if(this.div.innerHTML==''){
+				this.div.innerHTML=this.body();
+			}
 			this.evenement();
 		}
 
@@ -36,16 +39,20 @@ class SelectImage extends Morel_Dom{
 				input.click();
 			})
 		}
+
 		selectDiv(){
 			this.divImage=this.getChild(this.div,'divImag')[0];
 		}
+
 		evenement(){
 			this.selectDiv()
 			this.div.onclick=async ()=>{
 				let b=await this.selectImage();
-				console.log(b)
 				this.image=await blob.changeBlob(b);
-				this.div.innerHTML=this.body();
+				if(this.div.innerHTML==''){
+					this.div.innerHTML=this.body();
+				}
+				if(this.func) this.func(this.image)
 			}
 		}
 	}

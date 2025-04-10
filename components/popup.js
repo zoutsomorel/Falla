@@ -8,7 +8,7 @@ function popup(html="",cour=false,del=true,classe="container-500"){
     // creer le contenus du popup
     div.innerHTML=`
         <div id="info" class="p-10 border-box shadow info rounded bg-white ${classe} m-0">
-            <div id="divSorti" class='bg-white' style='z-index:20;width:50px;margin-left:calc(100% - 50px);position:relative;top:-10px;${!del?"display:none":""}'><b id="sortir" style="position:relative;color:red" class="pointer fa fa-times fs-3"></b></div>
+            <div id="divSorti" class='bg-white' style='z-index:20;width:50px;margin-left:calc(100% - 50px);position:sticky;top:-10px;${!del?"display:none":""}'><b id="sortir" style="position:relative;color:red" class="pointer fa fa-times fs-3"></b></div>
             ${html}
         </div>
     `;
@@ -57,12 +57,12 @@ function popup(html="",cour=false,del=true,classe="container-500"){
     const resize=(height=0,cou=false,)=>{
          let heightEl=info.getBoundingClientRect().height;
         if((heightEl>window.innerHeight-50 || cou) && heightEl>height){
-            let divSortir=dom.getChild(div,"divSorti")[0];
+            // let divSortir=dom.getChild(div,"divSorti")[0];
             info.style.overflowY="scroll";
             info.style.overflowX="hidden";
             //info.style.marginTop="10px";
             info.style.height="calc(100vh - 25px)";
-            divSortir.style.position="sticky";
+            // divSortir.style.position="sticky";
         }
         if(info.scrollHeight==heightEl){
             info.style.height="";

@@ -92,8 +92,8 @@
 			if(id!='' && type!='post'){
 
 			}
-			let profil=new SelectImage(dom.getChild(div,'divImage'),produit.profil || '');
-			let categorie=new SelectRecherche(dom.getChild(div,'divCategorie'),['informatique','boissons','jus'],'a',produit.categorie);
+			let profil=new SelectImage(dom.getChild(div,'divImage')[0],produit.profil || '');
+			let categorie=new SelectRecherche(dom.getChild(div,'divCategorie')[0],['informatique','boissons','jus'],'a',produit.categorie);
 
 			dom.getChild(div,'form')[0].onsubmit=(e)=>{
 				e.preventDefault();

@@ -14,6 +14,9 @@
 	<!-- <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" /> -->
   <!-- <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script> -->
 	<style type="text/css">
+		*{
+			outline:none;
+		}
 		form .input{
 /*			margin-left: 10px;*/
 			width:calc(100% - 15px);
@@ -35,6 +38,22 @@
 			z-index:10;
 			text-align: center;
 		}
+
+		.discution{
+			position: fixed;
+			z-index:21;
+			top:90px;
+			right:20px;
+			width:300px;
+			max-height:calc(90vh - 90px);
+			overflow-y:scroll;
+			padding:10px;
+			border-radius:20px;
+			background:white;
+			height: inherit;
+			height:calc(90vh - 90px);
+		}
+
 		.affProd{
 			margin-top:20px;
 			display: grid;
@@ -43,15 +62,43 @@
 			justify-content: center;
 			grid-template-columns: repeat(auto-fit, minmax(0px, 250px));
 		}
+
+
 		@media screen and (max-width:803px){
 			.affProd{
 				grid-template-columns: repeat(auto-fit, minmax(0px,200px));
 			}
 		}
+
 		@media screen and (max-width:660px){
 			.affProd{
 				grid-template-columns: repeat(auto-fit, minmax(0px, calc(50% - 10px)));
 			}
+			.discution{
+				width:100%;
+				height:100%;
+				max-height: 100%;
+				top:0px;
+				right: 0px;
+			}
+			.divFormMessage{
+/*				width: calc(100vw - 20px) ;*/
+			}
+		}
+		.titreMessage:hover{
+			background:#f2f2f2;
+			cursor:pointer;
+		}
+		.divFormMessage{
+			position:sticky;
+			height:70px;
+			display: flex;
+			flex-direction:column;
+			width: calc(100% - 10px);
+			text-indent: right;
+			box-sizing: border-box;
+/*			vertical-align: bottom;*/
+			top:calc(100% - 70px);
 		}
 	</style>
 </head>
@@ -67,6 +114,9 @@
 <script src='../components/opacity.js'></script>
 <script src='../components/popup.js'></script>
 <script src='js/NavigationTitre.js'></script>
+<script src='js/TitleMessage.js'></script>
+<script src='js/message.js'></script>
+<script src='js/listeProduit.js'></script>
 <script src='js/map.js'></script>
 
 <script type="text/javascript">
@@ -197,6 +247,7 @@
 					)
 				)
 			}
+
 			return this.element(
 				'div',
 				{
@@ -232,6 +283,7 @@
 				isType?this.produit.nom:this.resume(this.produit.nom)
 			)
 		}
+
 		description(type){
 			let isType=type=='aff';
 			return this.element(
@@ -298,7 +350,7 @@
 					{
 						class:'w-100 flex'
 					},
-					[
+					[ 
 						this.element('h4',{class:'text-left flex-center justify-content-left',style:'width:calc(100% - 20px)'},titre),
 						t?this.element('div',{style:'width:20px',class:'justify-content-right'},
 							this.element('i',{class:'fa fa-angle-right fw-bold fs-5 pointer'})
@@ -333,6 +385,7 @@
 		}
 
 		static async affProduit(prod,div,titre){
+
 			if(!this.produit) this.produit={};
 			this.produit[titre]=prod;
 			let da=document.createElement('div');
@@ -340,6 +393,7 @@
 			div.appendChild(da);
 			const affProd=dom.getChild(da,'affProd')[0];
 			let di=[];
+
 			const put=(i)=>{
 				if(!this.produit[titre][i]) return;
 				let d=document.createElement('div');
@@ -366,19 +420,20 @@
 
 		htmlRecherche(){
 			const recherche=this.element('div',{class:'flex border rounded-20 w-100'},
-					[
-						this.element('div',{class:'flex-center',style:'background:#f2f2f2;border-radius:20px 0px 0px 20px;width:50px;height:inherit'},this.element('i',{class:'fa fa-search'})),
-						this.element('div',{style:'width:calc(100% - 50px)'},
-							this.element('input',
-								{
-									id:'search',
-									class:'w-100 px-2 py-1 border-box border',
-									attribute:"placeholder='Recherche...'",
-									style:'border-radius:0px 20px 20px 0px'
-								})
+				[
+					this.element('div',{class:'flex-center',style:'background:#f2f2f2;border-radius:20px 0px 0px 20px;width:50px;height:inherit'},this.element('i',{class:'fa fa-search'})),
+					this.element('div',{style:'width:calc(100% - 50px)'},
+						this.element('input',
+							{
+								id:'search',
+								class:'w-100 px-2 py-1 border-box border',
+								attribute:"placeholder='Recherche...'",
+								style:'border-radius:0px 20px 20px 0px'
+							}
 						)
-					]
-				)
+					)
+				]
+			)
 			return recherche;
 		}
 
@@ -440,6 +495,7 @@
 		    });
 				},{ threshold: 0.8 }
 			);
+
 			observer.observe(di);
 			setTimeout(()=>{AfficheProduit.ajusteDiv(di)},100);
 			window.addEventListener('resize',()=>{AfficheProduit.ajusteDiv(div)})
@@ -471,6 +527,11 @@ function Geolocation(){
 		}
 	})
 }
+
+/*
+	Afficher la liste des produits
+*/
+
 
 /*
 	cette classe creer le menu qui sera compose du logo et des sous menu a savoir la recherche le filtre discution
@@ -522,6 +583,12 @@ class Menu extends Morel_Dom{
 			}
 		}
 		i[0].onclick=()=>{location.href="accueil.html"}
+		i[1].onclick=()=>{
+			const open=(produit)=>{
+				new Message('',[],'Discution sur '+produit.nom);
+			}
+			new TitleMessage('',produit,'idProduit','Discution sur les produits',open);
+		}
 	}
 } 
 
@@ -576,30 +643,24 @@ class Recherche extends Morel_Dom{
 	// 	new AfficheProduit(ap2,{profil:'../img/3.jpg',nom:'Lait',categorie:'beaute'});
 	// 	new AfficheProduit(ap3,{profil:'../img/4.jpg',nom:'Lit',categorie:'Maison',prix:'100k fcfa'});
 	// 	new AfficheProduit(ap4,{profil:'../img/6.jpg',nom:'Sac a dos',categorie:'sacs',prix:'2000 fcfa'});
-		AfficheProduit.affProduit(
-			[
-				{profil:'../img/1.jpg',nom:'Talon',categorie:'chaussure'},
-				{profil:'../img/5.jpg',nom:'Lit',categorie:'Maison',prix:'150k fcfa'},
-				{profil:'../img/6.jpg',nom:'Sac a dos',categorie:'sacs',prix:'2000 fcfa'},
-				{profil:'../img/4.jpg',nom:'Lit',categorie:'Maison',prix:'100k fcfa'},
-				{profil:'../img/3.jpg',nom:'Lait',categorie:'beaute'},
-				{profil:'../img/2.jpg',nom:'airNigth',categorie:'chaussure',prix:'20000 fcfa'}
-			],
-			appe,
-			'Ustensile'
-		);
-		AfficheProduit.affProduit(
-			[
-				{profil:'../img/1.jpg',nom:'Talon',categorie:'chaussure'},
-				{profil:'../img/5.jpg',nom:'Lit',categorie:'Maison',prix:'150k fcfa'},
-				{profil:'../img/6.jpg',nom:'Sac a dos',categorie:'sacs',prix:'2000 fcfa'},
-				{profil:'../img/4.jpg',nom:'Lit',categorie:'Maison',prix:'100k fcfa'},
-				{profil:'../img/3.jpg',nom:'Lait',categorie:'beaute'},
-				{profil:'../img/2.jpg',nom:'airNigth',categorie:'chaussure',prix:'20000 fcfa'}
-			],
-			appe,
-			'Motos'
-		);
+		let produit=[
+			{_id:1,profil:'../img/1.jpg',nom:'Talon',categorie:'chaussure',message:'Morel est la et toi'},
+			{_id:2,profil:'../img/5.jpg',nom:'Lit',categorie:'Maison',prix:'150k fcfa'},
+			{_id:3,profil:'../img/6.jpg',nom:'Sac a dos',categorie:'sacs',prix:'2000 fcfa'},
+			{_id:4,profil:'../img/4.jpg',nom:'Lit',categorie:'Maison',prix:'100k fcfa'},
+			{_id:5,profil:'../img/3.jpg',nom:'Lait',categorie:'beaute'},
+			{_id:6,profil:'../img/2.jpg',nom:'airNigth',categorie:'chaussure',prix:'20000 fcfa'}
+		];
+		function getProduit(_id){
+			return produit[_id];
+		}
+
+		let men=['Motos','Velo','Avion','cool'];
+		for(let i=0;i<men.length;i++){
+			let d=document.createElement('div');
+			appe.appendChild(d);
+			new ListeProduit(d,produit,men[i],false,false);
+		}
 		new NavigationTitre(appe,'titreProd',"Categorie");
 		new Menu(menu);
 </script>

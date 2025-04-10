@@ -12,7 +12,6 @@
 			this.putBtn();
 			this.event();
 			NavigationTitre.div[titre]=this.divBtn;
-
 		}
 
 		body(){
@@ -38,24 +37,44 @@
 			this.div.insertBefore(this.divBtn,this.div.children[0]);
 		}
 
+		observeElement(el){
+			return new Promise(
+				(sucess)=>{
+					let t=false;
+					(new IntersectionObserver((entries) => {
+					    entries.forEach(async (entry) => {
+					        if (entry.isIntersecting) {
+					        	t=true;
+							 }
+						});
+					},{ threshold: 1 })).observe(el);
+
+					setTimeout(()=>{
+						sucess(t);
+					},10)
+				}
+			)
+		}
+
 		event(){
-			const suiv=(p=1)=>{
+			const suiv=async (p=1)=>{
 				// detecter le titre visible
 				const height=window.innerHeight - 50;
-				let posDiv=window.scrollY + height;
+				let posDiv=window.scrollY;
 				let d=0;
 				for(let i=0;i<this.divTitre.length;i++){
-					let posTitre=this.divTitre[i].offsetTop + height;
-					if(posDiv<posTitre) d=i-1
+					let posTitre=this.divTitre[i].offsetTop;
+					if((posTitre + height)>posDiv){
+						d=i;
+						break;
+					}
 				}
-
+				console.log(d);
 				d+=p;
 				if(d<0) d=0;
 				if(d>this.divTitre.length-1) d=this.divTitre.length-1;
-				console.log(d);
-				let posY=this.divTitre[d].offsetTop  - (50);
 				console.log(this.divTitre[d].offsetTop);
-				console.log(posY);
+				let posY=this.divTitre[d].offsetTop  - (50);
 				window.scrollTo(0,posY)
 			}
 

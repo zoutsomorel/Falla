@@ -14,9 +14,9 @@ class Morel_Dom{
 		}
 		else{
 			let a=typeof(arguments[0])=="string"?document.querySelectorAll(arguments[0]):arguments[0];
+			if(typeof(arguments[0])!="string") return a;
 			if(a.length==1) return a[0];
 			else if(a.length==0) return "";
-			else return a;
 		}
 	}
 
@@ -315,11 +315,13 @@ class Morel_Dom{
 				result.push((el.nodeName=='OPTION' && !t)?el.parentElement:el);
 			}
 			if(el.nodeName=='SELECT' && t) return result;
-			let tab=el.children || [];
-			for(let i=0;i<tab.length;i++){
-				result.push(...this.getChild(el.children[i],id));
+			else{
+				let tab=el.children || [];
+				for(let i=0;i<tab.length;i++){
+					result.push(...this.getChild(tab[i],id));
+				}
+				return result;
 			}
-			return result;
 		}
 	}
 
