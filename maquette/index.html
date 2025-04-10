@@ -1,1 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>
+		Accueil
+	</title>
+	<link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="../css/fontawesome.css">
+	<link rel="stylesheet" type="text/css" href="../css/font_family.css">
+	<link rel="stylesheet" type="text/css" href="../css/popup.css">
+	<link rel="stylesheet" type="text/css" href="../css/morel.css">
+	<style type="text/css">
+		form .input{
+/*			margin-left: 10px;*/
+			width:calc(100% - 15px);
+			margin-top:5px;
+			bpx-sizing:border-box;
+			border-radius:4px;
+		}
+		input{
+			outline:none;
+		}
+	</style>
+</head>
+<body class='family-morel'>
+	<div id='app'></div>
+<script src='../MorelLibraryJs/morel_dom.js'></script>
+<script src='../MorelLibraryJs/morel_blob.js'></script>
+<script src='../MorelLibraryJs/selectImage.js'></script>
+<script src='../MorelLibraryJs/selectRecherche.js'></script>
+<script src='../components/opacity.js'></script>
+<script src='../components/popup.js'></script>
+<script type="text/javascript">
+	class Accueil extends Morel_Dom{
+		constructor(div){
+			super();
+			this.div=div;
+			this.div.innerHTML=this.body();
+			this.pub();
+		}
 
+		body(){
+			return this.balise(
+				this.element(
+					'div',
+					{},
+					[
+						this.menu(),
+						this.element('div',{id:'divPub',style:"margin-top:50px"}),
+						this.commencer(),
+						this.description(),
+						...[1,1,1,1].map(e=>'<br/>'),
+						this.about()
+					]
+				)
+			)
+		}
+
+		menu(){
+			return this.element(
+				'div',
+				{
+					class:'fixed-top shadow p-2 border-box text-left fw-bold bg-white',
+					style:'font-size:18px'
+				},
+				[this.element('img',{class:'fa fa-search px-2',text:'../img/fallaLogo.png',style:'width:80px'})]
+			)
+		}
+
+		commencer(){
+			let a=0;
+			const begin=(titre,url='',color='')=>{
+				a++;
+				return this.element(
+					'div',
+					{class:`col-6 text-white`,style:'min-height:100px'},
+					this.element(
+						'div',
+						{
+							style:`background:${color || 'black'};`,
+							onclick:`location.href='${url}'`,
+							class:'px-2 w-90 h-100 flex-center rounded fs-6',
+							text:titre
+						}
+					)
+				)
+			}
+
+
+			return this.element(
+					'div',
+					{class:'row container-800',style:'margin-top:50px'},
+					[
+						this.element('h4',{class:'text-left'},"Commencer"),this.element('hr',{style:'margin-left:13px;width:calc(100% - 20px)'}),
+						...[['Trouver des produit','afficherProduit.html','#a44'],['Trouver des vehicules','#','#aa5']].map(e=>begin(...e))
+					]
+			)
+		}
+
+		about(){
+			return this.element(
+				'div',
+				{
+					id:'about',
+					class:'p-2 border-box w-100 bg-black text-white text-center',
+					formater:true,
+					text:"Developpez par **FirstMap** // Copie-right 2025"
+				}
+			)
+		}
+
+		description(){
+			return this.element(
+				'div',
+				{class:'row container-800',style:'margin-top:50px'},
+				[
+					this.element('h4',{class:'text-left'},"Description"),this.element('hr',{style:'margin-left:13px;width:calc(100% - 20px)'}),
+					this.element(
+						'div',
+						{
+							formater:true,
+							text:"Concus pour avoir des services itineraires de qualite superieure"
+						}
+					)
+				]
+			)
+		}
+		pub(){
+			let divPub=this.getChild(this.div,'divPub')[0];
+			this.putPub(divPub,[{image:'flyer.jpg',description:'genial'},{image:'mysfirst.jpg',description:'Parfais'},{image:'',description:'super'}]);
+		}
+
+		putPub(div,pub){
+			const btn=(id='right')=>{
+				return this.element(
+					'div',
+					{class:`${id=='right'?'text-right':'text-left'} border-box px-2 flex-center h-100`,style:'width:50px;'},
+					this.element(
+						'i',
+						{
+							class:'pointer fas fa-angle-'+id,
+							style:'font-size:17px;text-shadow:0px 0px 5px white'
+						}
+					)
+				)
+			}
+			div.innerHTML=this.balise(this.element(
+				'div',
+				{
+					class:'w-100 flex-center',
+					id:'putPub',
+					style:`background-image:url('../img/${pub[0].image}');background-size:cover;background-position:center;height:60vh`,
+				},
+				[
+					btn('left'),
+					this.element(
+						'div',
+						{
+							id:'divDescription fw-bold',
+							style:'width:calc(100% - 100px);color:orange;text-shadow:0px 0px 2px black;font-size:25px'
+						},
+						pub[0].description
+					),
+					btn('right')
+				]
+			))
+		}
+	}
+
+	let body=new Accueil(app);
+</script>
+
+</body>
+</html>
